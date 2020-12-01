@@ -15,15 +15,17 @@ func Init(mo MapStringOptions) {
 	}
 }
 
-func InitAndPing(ctx context.Context, mo MapStringOptions) {
+func InitAndPing(ctx context.Context, mo MapStringOptions) error {
 	for key, opt := range mo {
 		m, err := NewRedisPing(ctx, opt)
 		if err != nil {
-			continue
+			return err
 		}
 
 		mgr[key] = m
 	}
+
+	return nil
 }
 
 func GetRedis(name string) (*Redis, error) {
